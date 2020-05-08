@@ -1,0 +1,10 @@
+function onSubmit() {
+	var count = getSCAttachmentCount();
+	if(g_form.getValue('youryesno field name') == 'yes'){
+		if(count <= 0) {
+			alert('Please attach your spreadsheet.');
+			g_form.addErrorMessage('Please attach your spreadsheet.');
+			return false;
+		}
+	}
+}
