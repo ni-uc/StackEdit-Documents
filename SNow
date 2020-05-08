@@ -10,3 +10,53 @@ function onSubmit() {
 		}
 	}
 }
+
+
+
+Option 2: Using UI Script, JS Theme, and Client script
+Here is other ways that you may have a look as well.
+
+1. ADD A UI SCRIPT
+       In the Left Navigator Bar, go to System UI > UI Scripts. Click New
+        UI Script: GlobalCatalogItemFunctions
+        Global: true
+        Script:
+        function getSCAttachmentCount() {
+        var length;
+        try {
+                length = angular.element("#sc_cat_item").scope().attachments.length;
+        } catch(e) {
+        length = -1;
+        }
+        return length;
+       }
+
+2. ADD A JS THEME:
+
+In the Left Navigator Bar, go to Service Portal > Portals
+Click the Portal you want to adjust. It may be the one with URL suffix of "sp".
+Click the "info" button for the Theme Field. The standard theme is "Stock"
+Add your JS Include there
+Create New JS Theme
+               Display Name: GlobalCatalogItemFunctions
+               UI Script: GlobalCatalogItemFunctions
+3. CREATE A CATALOG CLIENT SCRIPT: For your catalog item you want to require attachments, use this client script.
+
+function onSubmit() {
+//Works in non-portal ui
+try {
+var attachments = document.getElementById('header_attachment_list_label');
+if (attachments.style.visibility == 'hidden' || attachments.style.display == 'none' ) {
+alert('You must attach the completed form before submitting this request.');
+return false;
+}
+}
+//For Service Portal
+catch(e) {
+var count = getSCAttachmentCount();
+if(count <= 0) {
+alert('You must attach the completed form before submitting this request.');
+return false;
+}
+}
+}
