@@ -60,3 +60,43 @@ return false;
 }
 }
 }
+
+
+--Client Script at Record Producer level
+
+function onChange(control, oldValue, newValue, isLoading) {
+   if (isLoading || newValue == '') {
+      return;
+   }
+alert('test');
+//	alert(g_form.getValue('variable.role'));
+  var ga = new GlideAjax('sn_customerservice.clientFieldAdminPanelRole');
+	ga.addParam('sysparm_name', 'fetchingChoices');
+	ga.addParam('sysparm_company_name', newValue);
+	ga.addParam('sysparm_tble_name', 'Case');
+	ga.getXML(WBSCode);
+alert(newValue);
+	function WBSCode(response) {
+		var answer = response.responseXML.documentElement.getAttribute("answer");
+		var a = JSON.parse(answer);
+		var v = [];
+alert('test2');
+		alert(answer);
+		
+		g_form.setValue('first_name', newValue);
+		if (a.u_role_values) {
+				var d = g_form.getValue('role');
+				g_form.clearOptions('role');
+				g_form.addOption('role', '', '--None--');
+				var s3 = a.u_role_values.split('|');
+				for (var j = 0; j < s3.length; j++) {
+					alert(s3[j]);
+					g_form.addOption('role', s3[j], s3[j]);
+				}
+				if(d){
+					g_form.setValue('role',d);
+				}
+			}
+	}
+   
+}
