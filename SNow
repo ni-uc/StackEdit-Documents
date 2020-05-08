@@ -1,3 +1,5 @@
+--Working with attachments:
+
 function onSubmit() {
 	var count = getSCAttachmentCount();
 	if(g_form.getValue('youryesno field name') == 'yes'){
